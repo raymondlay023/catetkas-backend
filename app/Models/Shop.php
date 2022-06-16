@@ -22,5 +22,12 @@ class Shop extends Model
         'category',
     ];
 
+    public function products(){
+        return $this->hasMany(Product::class,'shops_id','id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'users_id','id');
+    }
 
 }

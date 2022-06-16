@@ -23,4 +23,7 @@ class Product extends Model
         'capital',
     ];
 
+    public function shop(){
+        return $this->belongsTo(Shop::class,'shops_id','id');
+    }
 }

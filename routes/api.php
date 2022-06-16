@@ -25,10 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
-Route::post('shop/create', [ShopController::class, 'createShop']);
-Route::get('shop/read', [ShopController::class, 'readShop']);
-Route::post('shop/update', [ShopController::class, 'updateShop']);
-
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('user', [UserController::class, 'fetch']);
     Route::post('user', [UserController::class, 'updateProfile']);
@@ -43,5 +39,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('product/read',[ProductController::class,'readProduct']);
     Route::post('product/update',[ProductController::class,'updateProduct']);
     Route::post('product/delete',[ProductController::class,'deleteProduct']);
+
+    Route::post('shop/create', [ShopController::class, 'createShop']);
+    Route::get('shop/read', [ShopController::class, 'readShop']);
+    Route::post('shop/update', [ShopController::class, 'updateShop']);
 
 });

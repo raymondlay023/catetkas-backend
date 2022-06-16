@@ -43,7 +43,7 @@ class TransactionController extends Controller
         $limit = $request->input('limit',6);
         $type = $request->input('type');
 
-        $transaction = Transaction::all();
+        $transaction = Transaction::where('users_id',Auth::user()->id)->get();
 
         if($id){
             $transaction = Transaction::find($id);
@@ -61,41 +61,41 @@ class TransactionController extends Controller
                 );
             }
         }
-            if($type){
-                $transaction = Transaction::where('type', $type);
-                // $transaction = Transaction::find($type);
-                if($transaction){
-                    return ResponseFormatter::success(
-                        $transaction, 
-                        'Data transaksi berhasil diambil');
-                } else {
-                    return ResponseFormatter::error(
-                        null,
-                        'Data transaksi tidak ada',
-                        404,
-                    );
-                }
+        if($type){
+            $transaction = Transaction::where('type', $type);
+            // $transaction = Transaction::find($type);
+            if($transaction){
+                return ResponseFormatter::success(
+                    $transaction, 
+                    'Data transaksi berhasil diambil');
+            } else {
+                return ResponseFormatter::error(
+                    null,
+                    'Data transaksi tidak ada',
+                    404,
+                );
             }
-            return ResponseFormatter::success(
-                $transaction->paginate($limit),
-                'Data list transaksi berhasil diambil'
-            );
-            $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
+        }
+        
+        return ResponseFormatter::success(
+            $transaction,
+            'Data list transaksi berhasil diambil'
+        );
+        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
     }
 
     public function updateTransaction(Request $request){
-        $request->validate([
-            'note'=>'required',
-            'total'=>'required',
-        ]);
-
-        $data = $request->all();
-        $transaction = update($data);
-        return ResponseFormatter::success($transaction, 'Transaction Updated');
+        $id = $request->input('id');
+        Transaction::find($id)->update($request->all());
+        $transaction = Transaction::find($id);
+        return ResponseFormatter::success($transaction, 'Transaksi berhasil diupdate');
     }
 
     public function deleteTransaction(Request $request){
-        
+        $id = $request->input('id');
+        Transaction::find($id)->delete();
+        return ResponseFormatter::success([
+            'message' => 'Transaksi berhasil dihapus',
+        ]);
     }
-
 }
