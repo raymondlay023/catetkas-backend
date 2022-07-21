@@ -42,8 +42,9 @@ class TransactionController extends Controller
         $id = $request->input('id');
         $limit = $request->input('limit',6);
         $type = $request->input('type');
-
-        $transaction = Transaction::where('users_id',Auth::user()->id)->get();
+        
+        // $transaction = Transaction::where('users_id',Auth::user()->id)->get();
+        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
 
         if($id){
             $transaction = Transaction::find($id);
@@ -81,7 +82,6 @@ class TransactionController extends Controller
             $transaction,
             'Data list transaksi berhasil diambil'
         );
-        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
     }
 
     public function updateTransaction(Request $request){

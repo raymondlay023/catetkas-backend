@@ -28,14 +28,13 @@ class ShopController extends Controller
     }
 
     public function readShop(){
-        $shop = Shop::where('users_id', Auth::user()->id)->get();
+        $shop = Shop::where('users_id', Auth::user()->id)->first();
         return ResponseFormatter::success($shop, 'Data list shop telah diambil');
     }
 
     public function updateShop(Request $request){
-        $id = $request->input('id');
-        Shop::find($id)->update($request->all());
-        $shop = Shop::find($id);
+        Shop::where('users_id', Auth::user()->id)->update($request->all());
+        $shop = Shop::where('users_id', Auth::user()->id)->first();
         return ResponseFormatter::success($shop, 'Shop updated');
     }
 }

@@ -29,19 +29,19 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('user', [UserController::class, 'fetch']);
     Route::post('user', [UserController::class, 'updateProfile']);
     Route::post('logout', [UserController::class, 'logout']);
-
-    Route::post('transaction/create',[TransactionController::class,'createTransaction']);
-    Route::get('transaction/read',[TransactionController::class,'readTransaction']);
-    Route::post('transaction/update',[TransactionController::class,'updateTransaction']);
-    Route::post('transaction/delete',[TransactionController::class,'deleteTransaction']);
-
-    Route::post('product/create',[ProductController::class,'createProduct']);
-    Route::get('product/read',[ProductController::class,'readProduct']);
-    Route::post('product/update',[ProductController::class,'updateProduct']);
-    Route::post('product/delete',[ProductController::class,'deleteProduct']);
-
-    Route::post('shop/create', [ShopController::class, 'createShop']);
-    Route::get('shop/read', [ShopController::class, 'readShop']);
-    Route::post('shop/update', [ShopController::class, 'updateShop']);
+    
+    Route::post('transactions/create',[TransactionController::class,'createTransaction']);
+    Route::post('transactions/update',[TransactionController::class,'updateTransaction']);
+    Route::get('transactions/read',[TransactionController::class,'readTransaction']);
+    Route::post('transactions/delete',[TransactionController::class,'deleteTransaction']);
+    
+    Route::post('products/create',[ProductController::class,'createProduct']);
+    Route::get('products/read',[ProductController::class,'readProduct']);
+    Route::post('products/update',[ProductController::class,'updateProduct']);
+    Route::post('products/delete',[ProductController::class,'deleteProduct']);
+    
+    Route::post('shops/create', [ShopController::class, 'createShop']);
+    Route::get('shops/read', [ShopController::class, 'readShop']);
+    Route::post('shops/update', [ShopController::class, 'updateShop']);
 
 });
