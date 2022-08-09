@@ -88,7 +88,18 @@ class TransactionController extends Controller
         $id = $request->input('id');
         Transaction::find($id)->update($request->all());
         $transaction = Transaction::find($id);
-        return ResponseFormatter::success($transaction, 'Transaksi berhasil diupdate');
+        
+        TransactionItem::where('transactions_id', $id)->delete();
+        foreach ($request->items as $product){
+            TransactionItem::create([
+                'users_id' => Auth::user()->id,
+                'products_id' => $product['id'],
+                'transactions_id' => $transaction->id,
+                'quantity' => $product['quantity'],
+            ]);
+        }
+
+        return ResponseFormatter::success($transaction->load('items.product'), 'Transaksi berhasil diupdate');
     }
 
     public function deleteTransaction(Request $request){
