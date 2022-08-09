@@ -44,11 +44,11 @@ class TransactionController extends Controller
         $type = $request->input('type');
         
         // $transaction = Transaction::where('users_id',Auth::user()->id)->get();
-        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
-
+        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id)->get();
+        
         if($id){
             $transaction = Transaction::find($id);
-
+            
             if($transaction){
                 return ResponseFormatter::success(
                     $transaction, 
@@ -69,11 +69,11 @@ class TransactionController extends Controller
                 return ResponseFormatter::success(
                     $transaction, 
                     'Data transaksi berhasil diambil');
-            } else {
-                return ResponseFormatter::error(
-                    null,
-                    'Data transaksi tidak ada',
-                    404,
+                } else {
+                    return ResponseFormatter::error(
+                        null,
+                        'Data transaksi tidak ada',
+                        404,
                 );
             }
         }
@@ -83,7 +83,7 @@ class TransactionController extends Controller
             'Data list transaksi berhasil diambil'
         );
     }
-
+    
     public function updateTransaction(Request $request){
         $id = $request->input('id');
         Transaction::find($id)->update($request->all());
