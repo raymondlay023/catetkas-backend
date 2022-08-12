@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Http\Request;
@@ -32,6 +33,8 @@ class TransactionController extends Controller
                 'products_id' => $product['id'],
                 'transactions_id' => $transaction->id,
                 'quantity' => $product['quantity'],
+                $stockDifference = Product::where('id',$product['id'])->sum('stock') - $product['quantity'],
+                Product::where('id',$product['id'])->update(array('stock'=> $stockDifference)),
             ]);
         }
 
@@ -96,7 +99,10 @@ class TransactionController extends Controller
                 'products_id' => $product['id'],
                 'transactions_id' => $transaction->id,
                 'quantity' => $product['quantity'],
+                $stockDifference = Product::where('id',$product['id'])->sum('stock') - $product['quantity'],
+                Product::where('id',$product['id'])->update(array('stock'=> $stockDifference)),
             ]);
+
         }
 
         return ResponseFormatter::success($transaction->load('items.product'), 'Transaksi berhasil diupdate');
